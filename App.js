@@ -1,46 +1,24 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as loginActions from "./src/actions/login";
-class App extends Component {
+
+import { Router, Tabs, Scene, Stack } from "react-native-router-flux";
+
+import { Provider } from "react-redux";
+
+import store from "./src/store";
+
+// Screens
+import Login from "./src/screens/Login";
+
+export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-      </View>
+      <Provider store={store}>
+        <Router>
+          <Stack key={"root"}>
+            <Scene key="login" component={Login} title="Login" initial />
+          </Stack>
+        </Router>
+      </Provider>
     );
   }
 }
-
-const mapDispatchToProps = dispatch => {
-  bindActionCreators(loginActions, dispatch);
-};
-
-const mapStateToProps = state => ({
-  error: state.login.error
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(App);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  }
-});
